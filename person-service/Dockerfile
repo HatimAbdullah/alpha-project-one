@@ -1,8 +1,12 @@
-FROM maven
+FROM maven as build
 
-COPY . /people-service
-WORKDIR /people-service
-RUN mvn clean package && ls target
+COPY . /
+RUN mvn clean package && ls -a
 
-CMD ["java", "-jar", "target/person-service-1.0.0.jar"]
+FROM adoptopenjdk/openjdk11:alpine
 
+COPY --from=build /target/person-service-1.0.0.jar /
+
+CMD ["java", "-jar", "person-service-1.0.0.jar"]
+
+EXPOSE 80

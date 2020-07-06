@@ -1,7 +1,7 @@
 FROM maven as build
 
 COPY . /
-RUN mvn clean package && ls -a
+RUN mvn clean package
 
 FROM adoptopenjdk/openjdk11:alpine
 
